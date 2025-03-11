@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: app-1
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: app-1
@@ -14,9 +14,8 @@ spec:
         app: app-1
     spec:
       containers:
-        - name: app-1
-          image: ubuntu:22.04
-          command: ["sleep", "infinity"]
+        - name: nginx
+          image: nginx:1.14.2
           resources:
             requests:
               cpu: 200m
@@ -24,3 +23,5 @@ spec:
             limits:
               cpu: 500m
               memory: 2Gi
+          ports:
+            - containerPort: 80

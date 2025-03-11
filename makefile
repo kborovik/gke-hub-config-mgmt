@@ -4,18 +4,24 @@
 
 MAKEFLAGS += --no-builtin-rules --no-builtin-variables
 
-settings:
-	$(info Version:          $(file < VERSION))
-	$(info Git Commit Long:  $(shell git rev-parse HEAD))
-	$(info Git Commit Short: $(shell git rev-parse --short HEAD))
+help:
+	echo "Usage: make [recipe]"
+	echo "Recipes:"
+	awk 'BEGIN {FS = ":.*?## "; sort_cmd = "sort"} \
+		/^[a-zA-Z0-9_-]+:.*?## / { \
+			printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 | sort_cmd; \
+		} \
+		END {close(sort_cmd)}' $(MAKEFILE_LIST)
 
-status:
+nomos_bin := /usr/bin/nomos
+
+$(nomos_bin):
+	sudo apt-get install google-cloud-cli-nomos
+
+status: $(nomos_bin) ## View GKE Fleet Config Sync status
 	nomos status
 
-version:
+commit: ## Stage and Commit ALL changes
 	version=$$(date +%Y.%m.%d-%H%M)
-	echo "$$version" >| VERSION
 	git add --all
-
-commit: version
-	git commit -m "$$(cat VERSION)"
+	git commit -m "$$version"
