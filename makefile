@@ -21,6 +21,11 @@ $(nomos_bin):
 status: $(nomos_bin) ## View GKE Fleet Config Sync status
 	nomos status
 
+version: ## View Git Commit
+	echo "Code Versions:"
+	echo "  Local: $(shell git rev-parse --short main)"
+	echo "  Remote: $(shell git rev-parse --short origin/main)"
+
 commit: ## Stage and Commit ALL changes
 	version=$$(date +%Y.%m.%d-%H%M)
 	git add --all
