@@ -4,7 +4,7 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: apache
-  namespace: "default"
+  namespace: "apache"
   labels:
     app.kubernetes.io/instance: apache
     app.kubernetes.io/managed-by: Helm
@@ -31,7 +31,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: apache
-  namespace: "default"
+  namespace: "apache"
   labels:
     app.kubernetes.io/instance: apache
     app.kubernetes.io/managed-by: Helm
@@ -50,7 +50,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: apache
-  namespace: "default"
+  namespace: "apache"
   labels:
     app.kubernetes.io/instance: apache
     app.kubernetes.io/managed-by: Helm
@@ -64,7 +64,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: apache
-  namespace: "default"
+  namespace: "apache"
   labels:
     app.kubernetes.io/instance: apache
     app.kubernetes.io/managed-by: Helm
@@ -91,7 +91,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apache
-  namespace: "default"
+  namespace: "apache"
   labels:
     app.kubernetes.io/instance: apache
     app.kubernetes.io/managed-by: Helm

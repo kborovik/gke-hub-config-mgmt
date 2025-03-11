@@ -40,19 +40,20 @@ gke-auth: ## Create GKE authentication
 gke-clean: ## Remove GKE authentication
 	rm -f $(KUBECONFIG)
 
-helm_dir := helm/apache
-gke_namespace ?= default
+helm_chart := helm/apache
+test_namespace ?= default
 app_name ?= apache
+app_namespace ?= apache
 
 helm-show: ## Show Kubernetes manifests
-	helm template $(app_name) $(helm_dir) --namespace $(gke_namespace) | bat -l yaml
+	helm template $(app_name) $(helm_chart) --namespace $(app_namespace) | bat -l yaml
 
 helm-save: ## Save Kubernetes manifests
-	helm template $(app_name) $(helm_dir) --namespace $(gke_namespace) | tee namespaces/apache/apache.yaml
+	helm template $(app_name) $(helm_chart) --namespace $(app_namespace) | tee namespaces/apache/apache.yaml
 
 helm-test: ## Test HELM chart
-	helm upgrade $(app_name) $(helm_dir) --install --namespace $(gke_namespace) --debug --dry-run
+	helm upgrade $(app_name) $(helm_chart) --install --namespace $(test_namespace) --debug --dry-run
 
 helm-install: ## Install HELM chart
 	$(call header,Deploying HELM)
-	helm upgrade $(app_name) $(helm_dir) --install --namespace $(gke_namespace) --wait --timeout=5m --atomic
+	helm upgrade $(app_name) $(helm_chart) --install --namespace $(test_namespace) --wait --timeout=5m --atomic
