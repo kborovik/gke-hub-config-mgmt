@@ -19,13 +19,15 @@ git-log: ## View Git Commit
 commit: ## Stage and Commit ALL changes
 	git commit -m "$(shell date +%Y.%m.%d-%H%M)"
 
-fleet-status: $(nomos_bin) ## View GKE Fleet Config Sync status
+fleet-list: $(nomos_bin) ## List GKE Fleet Clusters, Fleets, and Memberships
 	echo "$(blue)GKE Clusters:$(reset)"
 	gcloud container clusters list
 	echo "$(blue)GKE Fleets:$(reset)"
 	gcloud container fleet list
 	echo "$(blue)GKE Fleets Membership:$(reset)"
 	gcloud container fleet memberships list
+
+fleet-sync: $(nomos_bin) ## View GKE Fleet Config Sync status
 	echo "$(blue)GKE Fleets Config Sync Status:$(reset)"
 	nomos status
 
