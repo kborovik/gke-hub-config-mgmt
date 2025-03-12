@@ -11,17 +11,22 @@ nomos_bin := /usr/bin/nomos
 $(nomos_bin):
 	sudo apt-get install google-cloud-cli-nomos
 
-version: ## View Git Commit
+git-log: ## View Git Commit
 	echo "Code Versions:"
 	echo "  Local: $(shell git rev-parse --short main)"
 	echo "  Remote: $(shell git rev-parse --short origin/main)"
 
 commit: ## Stage and Commit ALL changes
-	version=$$(date +%Y.%m.%d-%H%M)
-	git add --all
-	git commit -m "$$version"
+	git commit -m "$(shell date +%Y.%m.%d-%H%M)"
 
 fleet-status: $(nomos_bin) ## View GKE Fleet Config Sync status
+	echo "$(blue)GKE Clusters:$(reset)"
+	gcloud container clusters list
+	echo "$(blue)GKE Fleets:$(reset)"
+	gcloud container fleet list
+	echo "$(blue)GKE Fleets Membership:$(reset)"
+	gcloud container fleet memberships list
+	echo "$(blue)GKE Fleets Config Sync Status:$(reset)"
 	nomos status
 
 KUBECONFIG ?= $(HOME)/.kube/config
